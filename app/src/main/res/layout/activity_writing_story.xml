@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".WritingStory">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <!-- ToolBar widget -->
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?attr/actionBarSize"
+            android:background="?attr/colorOnPrimary"
+            android:theme="?attr/actionBarTheme"
+            app:title="  Writing Story"/>
+    </RelativeLayout>
+</com.google.android.material.appbar.AppBarLayout>
+    <ImageButton
+        android:layout_below="@+id/appBarLayout"
+        android:id="@+id/addimage"
+        android:layout_width="100dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_name_24" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/appBarLayout"
+        android:layout_marginTop="100dp"
+        android:paddingStart="20dp"
+        android:fontFamily="@font/roboto"
+        android:layout_toEndOf="@id/addimage"
+        android:text="Add Image"
+        tools:ignore="RtlSymmetry" />
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/titlelayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/addimage"
+        android:layout_marginStart="20dp"
+        android:fontFamily="@font/roboto"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="20dp"
+        app:endIconMode="clear_text"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:hint="Enter Title">
+      <com.google.android.material.textfield.TextInputEditText
+          android:layout_width="match_parent"
+          android:id="@+id/titel"
+          android:fontFamily="@font/roboto"
+          android:textSize="16sp"
+          android:layout_height="wrap_content"/>
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/titlelayout"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="20dp"
+        app:errorEnabled="true"
+        app:endIconMode="clear_text"
+        android:id="@+id/deceptionlayout"
+        app:startIconContentDescription="Title"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        tools:ignore="RtlSymmetry">
+      <com.google.android.material.textfield.TextInputEditText
+          android:layout_width="match_parent"
+          android:fontFamily="@font/roboto"
+          android:id="@+id/deception"
+          android:textSize="16sp"
+          android:hint="Enter Description"
+          android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Choose Category"
+            android:id="@+id/cate"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_below="@id/deceptionlayout"/>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/categorylayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/cate"
+            android:layout_marginStart="20dp"
+            android:fontFamily="@font/roboto"
+            android:layout_marginEnd="20dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                android:id="@+id/category"
+                android:layout_below="@id/deceptionlayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto"/>
+        </com.google.android.material.textfield.TextInputLayout>
+    <TextView
+        android:id="@+id/label_to"
+        android:layout_below="@id/categorylayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:text="Tags"/>
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/tagslist"
+        android:layout_marginStart="20dp"
+        android:layout_below="@id/label_to"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+    <EditText
+        android:id="@+id/addtagslayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:hint="Enter Tags"
+        android:layout_below="@id/tagslist"
+        android:importantForAutofill="no"
+        android:inputType="textPersonName" />
+<Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Post"
+        android:layout_marginTop="30dp"
+        android:id="@+id/post"
+        android:layout_below="@id/addtagslayout"/>
+    </RelativeLayout>
+  </ScrollView>
+
+

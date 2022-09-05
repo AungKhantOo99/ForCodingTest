@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/ic_add_24.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/ic_align_24.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/ic_align_left_24.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/ic_back.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/ic_color_24.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/ic_email_24.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/ic_filter.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/ic_name_24.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/ic_new.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/ic_next.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/ic_noti.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/ic_notifications_black_24dp.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/ic_passward_24.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/ic_search_24.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/ic_underlined_24.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/loginbg.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/mainxmlbg.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/navibg.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/nextsignupbg.xml" value="0.11" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/searchbg.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/signupbg.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/tagsbg.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout-land/activity_writing_story.xml" value="0.225377107364685" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout-v31/categoryitems.xml" value="0.1375" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/activity_authentication.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/activity_search_result.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/activity_story_details.xml" value="0.11286874732791792" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/activity_story_parts.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/activity_writing_story.xml" value="0.3333333333333333" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/categoryitems.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/detailbook.xml" value="0.11286874732791792" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/dialogview.xml" value="0.5" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/firstshow.xml" value="0.13333333333333333" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/fragment_blank.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/fragment_current_read.xml" value="0.11286874732791792" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/fragment_favouriate.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/fragment_home.xml" value="0.35294117647058826" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/fragment_library.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/fragment_notifications.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/fragment_profile.xml" value="0.33116883116883117" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/fragment_reading_list.xml" value="0.11286874732791792" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/fragment_search.xml" value="0.25" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/fragment_zzz.xml" value="0.10572916666666667" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/lastest.xml" value="0.5" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/popular.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/searchitem.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/searchresultitem.xml" value="0.5" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/menu/bottom_nav_menu.xml" value="0.10572916666666667" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/menu/next.xml" value="0.11286874732791792" />
+        <entry key="..\:/MML Project/TAYPAD2/app/src/main/res/layout/fragment_home.xml" value="0.10572916666666667" />
+        <entry key="..\:/MML Project/TAYPAD2/app/src/main/res/layout/fragment_library.xml" value="0.1" />
+        <entry key="..\:/MML Project/TAYPAD2/app/src/main/res/layout/fragment_profile.xml" value="0.10572916666666667" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.10944848225737494" />
+      </ProjectState>
+    </option>
+  </component>
+</project>
