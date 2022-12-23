@@ -3,7 +3,6 @@ package com.ako.taypad.Adapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,8 +10,6 @@ import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.ako.taypad.R
 import com.ako.taypad.SearchResultActivity
-import com.ako.taypad.StoryDetailsActivity
-import com.ako.taypad.model.example.bindexample
 
 class SearchAdapter(var context: Context, var item: ArrayList<String>) :
     RecyclerView.Adapter<SearchAdapter.ViewHolder>(), Filterable {

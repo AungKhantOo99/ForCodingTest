@@ -1,22 +1,14 @@
 package com.ako.taypad.ViewModel
 
-import android.app.Application
-import android.content.Context
-import android.content.SharedPreferences
-import android.content.res.Resources
-import android.databinding.tool.util.Preconditions.check
-import android.util.Log
-import androidx.core.content.res.TypedArrayUtils.getString
-import androidx.lifecycle.AndroidViewModel
+import android.os.Parcelable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.ako.taypad.AuthenticationActivity
-import com.ako.taypad.MainActivity
 import com.ako.taypad.R
-import com.ako.taypad.Retrofit.testfilter
-import com.ako.taypad.model.ResponseData
+import com.ako.taypad.Retrofit.RetrofitClient
 import com.ako.taypad.model.example.bindexample
+import com.ako.taypad.model.getallstories.allstories
+import com.ako.taypad.model.storypartsdata.responsepartdata
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -24,25 +16,13 @@ import retrofit2.Response
 open class AllData : ViewModel() {
     lateinit var count: MutableLiveData<Int>
     lateinit var examplae: MutableLiveData<ArrayList<bindexample>>
+    lateinit var alldata: MutableLiveData<allstories>
+    lateinit var allPart:MutableLiveData<responsepartdata>
+    private lateinit var state: Parcelable
 
-    init {
-        count = MutableLiveData()
-    }
-
-    fun getcount(): LiveData<Int> {
-        return count
-    }
-
-    fun addcount(noti: Int) {
-        count.value = noti
-        getcount()
-    }
-
-    fun reducecount() {
-        var count = count.postValue(count.value)
-        getcount()
-    }
-
+    fun saveRecyclerViewState(parcelable: Parcelable) { state = parcelable }
+    fun restoreRecyclerViewState() : Parcelable = state
+    fun stateInitialized() : Boolean = ::state.isInitialized
     fun getExample(): LiveData<ArrayList<bindexample>> {
         if (!::examplae.isInitialized) {
             examplae = MutableLiveData()
@@ -52,14 +32,14 @@ open class AllData : ViewModel() {
                     "Generate a book name through a book title generator",
                     "Romance",
                     "Here we pass the flags for the directions of drag and swipe. Since swipe is disable we pass 0 for it.",
-                    R.drawable.d
+                    R.drawable.d,5
                 )
             )
             allbook.add(
                 bindexample(
                     "Their Eyes Were Watching God by Zora Neale Hurston", "Horror",
                     "Based on the current state of the RecyclerView and whether ",
-                    R.drawable.down
+                    R.drawable.down,8
                 )
             )
             allbook.add(
@@ -72,7 +52,7 @@ open class AllData : ViewModel() {
                             "His face was a strong—a very strong—aquiline, with high bridge of the thin nose and peculiarly arched nostrils; with lofty domed forehead, and hair growing scantily round the temples but profusely elsewhere. His eyebrows were very massive, almost meeting over the nose, and with bushy hair that seemed to curl in its own profusion. The mouth, so far as I could see it under the heavy moustache, was fixed and rather cruel-looking, with peculiarly sharp white teeth; these protruded over the lips, whose remarkable ruddiness showed astonishing vitality in a man of his years. For the rest, his ears were pale, and at the tops extremely pointed; the chin was broad and strong, and the cheeks firm though thin. The general effect was one of extraordinary pallor.\n" +
                             "\n" +
                             "Paragraphs in fiction are more flexible with the rules, but nonetheless, this paragraph includes both a topic sentence and a concluding summary. Notice how all the details pertain to Dracula’s face and head; Stoker begins a new paragraph when describing other parts of his appearance, like his hands, because the author treats it as a separate topic. gets triggered. Here we can customize the RecyclerView row. For example, changing the background color.",
-                    R.drawable.dow
+                    R.drawable.dow,10
                 )
             )
             allbook.add(
@@ -80,7 +60,7 @@ open class AllData : ViewModel() {
                     "Don’t forget the subtitle",
                     "Science",
                     "This method gets triggered when the user interaction stops with the ",
-                    R.drawable.download
+                    R.drawable.download,18
                 )
             )
             allbook.add(
@@ -103,7 +83,7 @@ open class AllData : ViewModel() {
                             "Each sentence in this paragraph example relates to the feeling described in the topic sentence. Although writing in a narrative form, Northup waits until a new paragraph to continue the story—this paragraph focuses solely on that one emotion. \n" +
                             "\n" +
                             "Finally, let’s look at a fiction paragraph example. In Bram Stoker’s Dracula, one of the protagonists, Jonathan Harker, describes the appearance of Count Dracula. ",
-                    R.drawable.images
+                    R.drawable.images,21
                 )
             )
             allbook.add(
@@ -141,7 +121,7 @@ open class AllData : ViewModel() {
                             "Narrative: When telling a story, a narrative paragraph explains an action or event. Each new sentence furthers or expands upon the action by providing new information. \n" +
                             "Descriptive: Also common in storytelling, descriptive paragraphs focus on describing a single topic, such as a person or an environment. Each new sentence adds a new detail about that topic. \n" +
                             "The type of paragraph used usually depends on the type of writing. For example, if you’re writing a research paper, it would be difficult to justify a narrative paragraph. ",
-                    R.drawable.images
+                    R.drawable.images,8
                 )
             )
             allbook.add(
@@ -157,7 +137,7 @@ open class AllData : ViewModel() {
                             "The type of paragraph used usually depends on the type of writing. For example, if you’re writing a research paper, it would be difficult to justify a narrative paragraph. \n" +
                             "\n" +
                             "Example paragraphs from literature ",
-                    R.drawable.one
+                    R.drawable.one,15
                 )
             )
             allbook.add(
@@ -166,7 +146,7 @@ open class AllData : ViewModel() {
                     "If men were rational in their conduct, that is to say, if they acted in the way most likely to bring about the ends that they deliberately desire, intelligence would be enough to make the world almost a paradise. In the main, what is in the long run advantageous to one man is also advantageous to another. But men are actuated by passions which distort their view; feeling an impulse to injure others, they persuade themselves that it is to their interest to do so. They will not, therefore, act in the way which is in fact to their own interest unless they are actuated by generous impulses which make them indifferent to their own interest. This is why the heart is as important as the head. By the “heart” I mean, for the moment, the sum-total of kindly impulses. Where they exist, science helps them to be effective; where they are absent, science only makes men more cleverly diabolic.\n" +
                             "\n" +
                             "Notice how all sentences in the paragraph relate to the same idea: That humans act emotionally more than rationally. However, each sentence makes its own unique point, and when taken together, they connect to the central topic",
-                    R.drawable.two
+                    R.drawable.two,9
                 )
             )
             allbook.add(
@@ -175,7 +155,7 @@ open class AllData : ViewModel() {
                     "Another nonfiction paragraph example comes from Twelve Years a Slave, a memoir from freeborn African-American Solomon Northup who was kidnapped and forced into slavery for twelve years before friends and family intervened with the help of the law. \n" +
                             "\n" +
                             "I expected to die. Though there was little in the prospect before me worth living for, the near approach of death appalled me. I thought I could have been resigned to yield up my life in the bosom of my family, but to expire in the midst of strangers, under such circumstances, was a bitter reflection.",
-                    R.drawable.three
+                    R.drawable.three,12
                 )
             )
             allbook.add(
@@ -186,7 +166,7 @@ open class AllData : ViewModel() {
                             "Finally, let’s look at a fiction paragraph example. In Bram Stoker’s Dracula, one of the protagonists, Jonathan Harker, describes the appearance of Count Dracula. \n" +
                             "\n" +
                             "His face was a strong—a very strong—aquiline, with high bridge of the thin nose and peculiarly arched nostrils; with lofty domed forehead, and hair growing scantily round the temples but profusely elsewhere. His eyebrows were very massive, almost meeting over the nose, and with bushy hair that seemed to curl in its own profusion. The mouth, so far as I could see it under the heavy moustache, was fixed and rather cruel-looking, with peculiarly sharp white teeth; these protruded over the lips, whose remarkable ruddiness showed astonishing vitality in a man of his years. For the rest, his ears were pale, and at the tops extremely pointed; the chin was broad and strong, and the cheeks firm though thin. The general effect was one of extraordinary pallor.",
-                    R.drawable.four
+                    R.drawable.four,10
                 )
             )
             allbook.add(
@@ -197,7 +177,7 @@ open class AllData : ViewModel() {
                             "\n" +
                             "How is a paragraph structured?\n" +
                             "Good paragraphs begin with a topic sentence that briefly explains what the paragraph is about. Next come a few sentences for development and support, elaborating on the topic with more detail. Paragraphs end with a conclusion sentence that summarizes the topic or presents one final piece of support to wrap up. \n",
-                    R.drawable.five
+                    R.drawable.five,9
                 )
             )
             examplae.value = allbook
@@ -205,22 +185,42 @@ open class AllData : ViewModel() {
         }
         return examplae
     }
-//    lateinit var alldata: MutableLiveData<Stories>
-//    fun getdata(jwt:String) : LiveData<Stories>{
-//        if(! :: alldata.isInitialized){
-//            alldata= MutableLiveData()
-//            val getapi= testfilter.JsonApi.get("Bearer "+jwt)
-//            getapi.enqueue(object : Callback<Stories>{
-//                override fun onResponse(
-//                    call: Call<Stories>,
-//                    response: Response<Stories>
-//                ) {
-//                   alldata.value=response.body()
-//                }
-//                override fun onFailure(call: Call<Stories>, t: Throwable) {
-//                }
-//            })
-//        }
-//        return alldata
-//    }
+
+    fun getdata(jwt:String) : LiveData<allstories>{
+        if(! :: alldata.isInitialized){
+            alldata= MutableLiveData()
+            val getapi= RetrofitClient.JsonApi.allstories("Bearer $jwt")
+            getapi.enqueue(object : Callback<allstories>{
+                override fun onResponse(call: Call<allstories>,response: Response<allstories>)
+                {
+                   alldata.value=response.body()
+                }
+                override fun onFailure(call: Call<allstories>, t: Throwable) {
+                }
+            })
+        }
+        return alldata
+    }
+
+    fun allParts(jwt:String, position:Int):LiveData<responsepartdata>{
+     //   if(! :: allPart.isInitialized){
+            allPart= MutableLiveData()
+            val call=RetrofitClient.JsonApi.getdata("Bearer $jwt",position.toString())
+            call.enqueue(object :Callback<responsepartdata>{
+                override fun onResponse(
+                    call: Call<responsepartdata>,
+                    response: Response<responsepartdata>
+                ) {
+                    if(response.code()==200){
+                        allPart.value=response.body()
+                    }
+                }
+
+                override fun onFailure(call: Call<responsepartdata>, t: Throwable) {
+                }
+
+            })
+     //   }
+        return allPart
+    }
 }

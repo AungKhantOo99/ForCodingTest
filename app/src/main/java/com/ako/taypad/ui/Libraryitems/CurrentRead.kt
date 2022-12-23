@@ -1,11 +1,11 @@
 package com.ako.taypad.ui.Libraryitems
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -39,6 +39,9 @@ class CurrentRead : Fragment() {
                     if(it.equals(binddate.titel)){
                         filter.add(binddate) }
                 }
+            }
+            if(filter.isNotEmpty()){
+                view.findViewById<TextView>(R.id.hintforempty).visibility=View.GONE
             }
             currentRead.adapter=SearchResultAdapter(requireContext(),filter)
         })

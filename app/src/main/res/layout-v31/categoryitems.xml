@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
+<RelativeLayout
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardElevation="3dp"
-    app:cardCornerRadius="3dp"
-    android:background="@android:color/system_neutral2_100"
-    android:layout_margin="3dp"
+    android:layout_margin="2dp"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    <com.google.android.material.textview.MaterialTextView
-        android:textAlignment="center"
-        android:paddingTop="38dp"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
+    android:background="@drawable/categorybgimg"
+    android:layout_height="80dp">
+    <TextView
+        android:layout_marginEnd="20dp"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:id="@+id/searchcategpry"/>
-</androidx.cardview.widget.CardView>
+</RelativeLayout>

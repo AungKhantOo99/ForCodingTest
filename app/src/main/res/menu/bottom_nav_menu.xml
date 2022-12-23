@@ -3,24 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/navigation_home"
-        android:icon="@drawable/homes"
-        android:title=""
-        />
+        android:icon="@drawable/ic_baseline_home_24"
+        android:title="Home" />
 
     <item
         android:id="@+id/navigation_search"
-        android:icon="@drawable/searchs"
-        android:title="" />
+        android:icon="@drawable/ic_baseline_search_24"
+        android:title="Search" />
     <item
         android:id="@+id/navigation_librsry"
-        android:icon="@drawable/library"
-        android:title=""/>
-    <item
-        android:id="@+id/navigation_notifications"
-        android:icon="@drawable/writestory"
-        android:title="" />
+        android:icon="@drawable/ic_baseline_library_books_24"
+        android:title="Library" />
     <item
         android:id="@+id/navigation_profile"
-        android:icon="@drawable/setting"
-        android:title="" />
+        android:icon="@drawable/ic_name_24"
+        android:title="Profile" />
 </menu>

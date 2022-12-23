@@ -1,98 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ui.home.HomeFragment">
-   <RelativeLayout
-       android:layout_marginBottom="500dp"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content">
-      <TextView
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:text="Home"
-          android:fontFamily="@font/bigshot_one"
-          android:textSize="24sp"
-          android:layout_marginTop="15dp"
-          android:layout_marginStart="10dp"
-          android:id="@+id/home"/>
-      <ImageView
-          android:layout_width="32dp"
-          android:layout_height="32dp"
-          android:src="@drawable/ic_filter"
-          android:layout_marginEnd="10dp"
-          android:layout_marginTop="15sp"
-          android:layout_alignParentEnd="true"/>
-      <androidx.recyclerview.widget.RecyclerView
-          android:layout_width="match_parent"
-          android:layout_height="250dp"
-         android:layout_below="@id/home"
-          android:layout_marginTop="10dp"
-         android:id="@+id/firstshow"/>
 
-      <TextView
-          android:id="@+id/last"
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          android:layout_below="@id/firstshow"
-          android:layout_marginStart="5dp"
-          android:layout_marginTop="10dp"
-          android:text="Lastest"
-          android:textSize="20sp" />
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
+        android:animationCache="true"
+        app:shimmer_duration="@integer/material_motion_duration_medium_2"
+        app:shimmer_repeat_mode="restart"
+        app:shimmer_shape="linear">
 
-      <TextView
-          android:id="@+id/titel"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_above="@id/firstshow"
-           />
-      <androidx.recyclerview.widget.RecyclerView
-          android:layout_width="match_parent"
-          android:layout_height="170dp"
-          android:id="@+id/lastest"
-          android:layout_marginStart="5dp"
-          android:layout_marginTop="5dp"
-          android:layout_below="@id/last"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-      <TextView
-          android:id="@+id/popular"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_below="@id/lastest"
-          android:layout_marginStart="5dp"
-          android:layout_marginTop="10dp"
-          android:fontFamily="monospace"
-          android:text="Popular Books"
-          android:textSize="20sp" />
-      <androidx.recyclerview.widget.RecyclerView
-          android:layout_width="match_parent"
-          android:layout_height="150dp"
-          android:id="@+id/polularlist"
-          android:layout_marginStart="5dp"
-          android:layout_marginTop="5dp"
-          android:layout_below="@id/popular"/>
-      <ImageView
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-         android:id="@+id/coverphoto"
-         android:layout_below="@id/titel"/>
-      <TextView
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_below="@+id/coverphoto"
-         android:id="@+id/deception"/>
-      <TextView
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_below="@id/deception"
-         android:id="@+id/createdate"/>
-      <TextView
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_below="@id/createdate"
-         android:id="@+id/updatedate"/>
-   </RelativeLayout>
-</ScrollView>
+            <include layout="@layout/homeloading" />
+
+            <include layout="@layout/homeloading" />
+
+            <include layout="@layout/homeloading" />
+
+        </LinearLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:layout_below="@id/shimmerLayout"
+        android:id="@+id/refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/scrollView"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="50dp">
+
+                <TextView
+                    android:id="@+id/home"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="15dp"
+                    android:fontFamily="@font/bigshot_one"
+                    android:text="@string/home"
+                    android:textSize="24sp" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profile_image"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_below="@id/home"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/one" />
+
+                <RelativeLayout
+                    android:id="@+id/write_story"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_below="@id/home"
+                    android:layout_margin="10dp"
+                    android:layout_toEndOf="@id/profile_image"
+                    android:background="@drawable/startwritingbg">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:paddingStart="20dp"
+                        android:paddingEnd="10dp"
+                        android:text="Start writing story" />
+                </RelativeLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/firstshow"
+                    android:descendantFocusability="blocksDescendants"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/write_story"
+                    android:layout_marginTop="10dp" />
+                <TextView
+                    android:id="@+id/popular"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/firstshow"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="monospace"
+                    android:text="Popular Books"
+                    android:textSize="20sp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/polularlist"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_below="@id/popular"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp" />
+            </RelativeLayout>
+        </ScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+</RelativeLayout>

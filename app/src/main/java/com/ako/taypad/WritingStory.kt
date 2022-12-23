@@ -1,13 +1,11 @@
 package com.ako.taypad
 
 import android.annotation.SuppressLint
-import android.app.ActionBar
 import android.app.Activity
+import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.OpenableColumns
@@ -22,10 +20,14 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
-import com.ako.taypad.Retrofit.testfilter
-import com.ako.taypad.model.PostCategory
-import com.ako.taypad.model.ResponcePostData.ResponcePostData
-import com.ako.taypad.responceImage.responceImagedata
+import com.ako.taypad.Retrofit.RetrofitClient
+import com.ako.taypad.model.responceImage.responceImagedata
+import com.ako.taypad.model.skipaction.data
+import com.ako.taypad.model.skipaction.responsedata
+import com.ako.taypad.model.skipaction.skipdata
+import com.ako.taypad.model.sendstorydata.Data
+import com.ako.taypad.model.sendstorydata.getdata
+import com.ako.taypad.model.sendstorydata.postdata
 import com.google.android.material.chip.Chip
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -38,41 +40,36 @@ import java.io.File
 
 
 class WritingStory : AppCompatActivity() {
+    lateinit var progressDialog: ProgressDialog
     lateinit var photourl: Uri
-    lateinit var add:ImageButton
-    lateinit var post:Button
-    lateinit var titel:com.google.android.material.textfield.TextInputEditText
-    lateinit var description:com.google.android.material.textfield.TextInputEditText
-    lateinit var tag:com.google.android.material.textfield.TextInputEditText
-    lateinit var deceriptionlayout:com.google.android.material.textfield.TextInputLayout
-    lateinit var autocomplete:androidx.appcompat.widget.AppCompatAutoCompleteTextView
+    lateinit var add: ImageButton
+    lateinit var post: Button
+    lateinit var titel: com.google.android.material.textfield.TextInputEditText
+    lateinit var description: com.google.android.material.textfield.TextInputEditText
+    lateinit var tag: com.google.android.material.textfield.TextInputEditText
     lateinit var sharedPreferences: SharedPreferences
     lateinit var jwt: String
-    lateinit var addtags:EditText
-    lateinit var tags:TextView
-    lateinit var tagschip:com.google.android.material.chip.ChipGroup
+    lateinit var addtags: EditText
+    lateinit var tags: TextView
+    lateinit var tagschip: com.google.android.material.chip.ChipGroup
+    lateinit var spinner: Spinner
+    lateinit var arr: Array<String>
+    var storytags = ArrayList<String>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_writing_story)
         val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
-        supportActionBar!!.setDisplayShowHomeEnabled(true)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-//        val colorDrawable = ColorDrawable(Color.parseColor("#ffffff"))
-//        supportActionBar?.setBackgroundDrawable(colorDrawable)
-        add=findViewById(R.id.addimage)
-        post=findViewById(R.id.post)
-        titel=findViewById(R.id.titel)
-      //  tag=findViewById(R.id.tag)
-        description=findViewById(R.id.deception)
-        addtags=findViewById(R.id.addtagslayout)
-        tagschip=findViewById(R.id.tagslist)
+        add = findViewById(R.id.addimage)
+        post = findViewById(R.id.post)
+        titel = findViewById(R.id.titel)
+        description = findViewById(R.id.deception)
+        addtags = findViewById(R.id.addtagslayout)
+        tagschip = findViewById(R.id.tagslist)
         addtags.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                val text = s.toString()
-                if (text.isNotEmpty() && (text.last().toString() == ","))
-                    addtags.setText("")
+
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -95,41 +92,39 @@ class WritingStory : AppCompatActivity() {
                 }
             }
         })
-
         sharedPreferences = getSharedPreferences(
             AuthenticationActivity.MyPERF,
-            Context.MODE_PRIVATE)
-        val arr = arrayOf("Fantasy","Horror","Fiction","Mystery","Thriller",
-                         "LGBT","Romance","Gothic","Young Adult",
-                         "Magical","Science","Adventure")
-        val adapter: ArrayAdapter<String> =
-            ArrayAdapter<String>(this, android.R.layout.select_dialog_item, arr)
-        autocomplete=findViewById(R.id.category)
-        autocomplete.setThreshold(1)
-        autocomplete.setAdapter(adapter)
+            Context.MODE_PRIVATE
+        )
+        arr = arrayOf(
+            "Fantasy", "Horror", "Fiction", "Mystery", "Thriller",
+            "LGBT", "Romance", "Gothic", "Young Adult",
+            "Magical", "Science", "Adventure"
+        )
+        spinner = findViewById(R.id.category)
+        val adapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_list_item_1, arr
+        )
+        spinner.adapter = adapter
         jwt = sharedPreferences.getString(AuthenticationActivity.defaultvalue, null).toString()
         add.setOnClickListener {
             val intent = Intent(Intent.ACTION_PICK)
             intent.type = "image/*"
             startActivityForResult(intent, 0)
         }
-//        post.setOnClickListener {
-////            val posttitel=titel.text.toStrin g()
-//            val postdescription=description.text.toString()
-////            val postdata=DataX(posttitel,postdescription)
-////            val Jwt="Bearer "+jwt
-////            val cate=PostCategory(postdata)
-////            Post(Jwt,cate)
-//         //   PostImage()
-//            if(description.length() <8){
-//               deceriptionlayout=findViewById(R.id.deceptionlayout)
-//                deceriptionlayout.error="Enter more than 8"
-//
-//            }else deceriptionlayout.error=null
-//        }
-
+        post.setOnClickListener {
+            progressDialog = ProgressDialog(this)
+            progressDialog.setTitle("Loading")
+            progressDialog.setMessage("Please wait")
+            progressDialog.show()
+            progressDialog.setCancelable(false)
+            postImage()
+        }
     }
+
     private fun addChipToGroup(tags: String) {
+        storytags.add(tags)
         val chip = Chip(this)
         chip.text = tags
         chip.chipIcon = ContextCompat.getDrawable(this, R.drawable.homes)
@@ -139,10 +134,12 @@ class WritingStory : AppCompatActivity() {
         chip.isCheckable = false
         tagschip.addView(chip as View)
         chip.setOnCloseIconClickListener {
+            storytags.remove(chip.text)
             tagschip.removeView(chip as View)
             Toast.makeText(this, "${chip.text} has been removed", Toast.LENGTH_SHORT).show()
         }
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 0 && resultCode == Activity.RESULT_OK && data != null) {
@@ -150,74 +147,123 @@ class WritingStory : AppCompatActivity() {
             add.setImageURI(photourl)
         }
     }
-    private fun Post(jwt:String?,data:PostCategory){
-        val call= jwt?.let { testfilter.JsonApi.postdata(it,data) }
-        call!!.enqueue(object :Callback<ResponcePostData>{
-            override fun onResponse(call: Call<ResponcePostData>, response: Response<ResponcePostData>) {
-                Log.d("onlycheck",response.code().toString())
+
+    private fun postImage() {
+        val name = resover(photourl)
+        val file = createTmpFileFromUri(applicationContext, photourl, name)
+        val requestFile =
+            file!!.asRequestBody(contentResolver.getType(photourl)?.toMediaTypeOrNull())
+        //   val requestBody= file?.let { RequestBody.create("image/*".toMediaTypeOrNull(), it) }
+        Log.d("Whybot", name)
+        val token: String = "Bearer " + jwt
+        val call = RetrofitClient.JsonApi.postfile(
+            token, files =
+            MultipartBody.Part.createFormData("files", name, requestFile)
+        )
+        call.enqueue(object : Callback<responceImagedata> {
+            override fun onResponse(
+                call: Call<responceImagedata>,
+                response: Response<responceImagedata>
+            ) {
+                if (response.code() == 200) {
+                    val posttitel = titel.text.toString()
+                    val postdescription = description.text.toString()
+                    val category=2.toString()
+                    var url=""
+                    response.body()!!.forEach {
+                        url=it.url
+                    }
+                    val Jwt = "Bearer $jwt"
+                    val data = postdata(Data(category,postdescription,posttitel,url))
+                    postStory(Jwt, data)
+                }
             }
-            override fun onFailure(call: Call<ResponcePostData>, t: Throwable) {
-               Log.d("Whynot",t.message.toString())
+            override fun onFailure(call: Call<responceImagedata>, t: Throwable) {
+                Log.d("Whynot", t.message.toString())
+            }
+        })
+    }
+
+    private fun postStory(jwt:String, info:postdata){
+        val call=RetrofitClient.JsonApi.poststories(jwt,info)
+        call.enqueue(object :Callback<getdata>{
+            override fun onResponse(call: Call<getdata>, response: Response<getdata>) {
+                if(response.code()==200){
+                    Toast.makeText(applicationContext, "Success", Toast.LENGTH_SHORT).show()
+                    val int = Intent(this@WritingStory, StoryPartsActivity::class.java)
+                    int.putExtra("postdata", response.body())
+                    startActivity(int)
+                    progressDialog.hide()
+                }
+            }
+
+            override fun onFailure(call: Call<getdata>, t: Throwable) {
+
             }
 
         })
     }
-    private fun PostImage(){
-        val name=Resover(photourl)
-        val file= createTmpFileFromUri(applicationContext,photourl,name)
-            val requestFile = file!!.asRequestBody(contentResolver.getType(photourl)?.toMediaTypeOrNull())
-         //   val requestBody= file?.let { RequestBody.create("image/*".toMediaTypeOrNull(), it) }
-            Log.d("Whybot",name)
-            val token: String = "Bearer "+jwt
-            val call=testfilter.JsonApi.postfile(token,files=
-            MultipartBody.Part.createFormData("files", name, requestFile))
-            call.enqueue(object :Callback<responceImagedata>{
-                override fun onResponse(call: Call<responceImagedata>, response: Response<responceImagedata>) {
-                    Log.d("Whynot",response.code().toString())
-                    val data=response.body()
-                    data!!.forEach {
-                        val url=it.url
-                        Log.d("Whynot",url)
-                    }
-                }
-                override fun onFailure(call: Call<responceImagedata>, t: Throwable) {
-                    Log.d("Whynot",t.message.toString())
-                }
-            })
-    }
+
     private fun createTmpFileFromUri(context: Context, uri: Uri, fileName: String): File? {
         return try {
             val stream = context.contentResolver.openInputStream(uri)
             val file = File.createTempFile(fileName, "", context.cacheDir)
-            FileUtils.copyInputStreamToFile(stream,file)
+            FileUtils.copyInputStreamToFile(stream, file)
             file
         } catch (e: Exception) {
             e.printStackTrace()
             null
         }
     }
+
     @SuppressLint("Range")
-    private fun Resover(url:Uri):String{
-        var name=""
-        val cusor=managedQuery(url,null,null,null,null)
+    private fun resover(url: Uri): String {
+        var name = ""
+        val cusor = managedQuery(url, null, null, null, null)
         cusor.use {
             it.moveToFirst()
-            name=cusor.getString(it.getColumnIndex(OpenableColumns.DISPLAY_NAME))
+            name = cusor.getString(it.getColumnIndex(OpenableColumns.DISPLAY_NAME))
         }
         return name
     }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.next, menu)
         val item: MenuItem = menu.findItem(R.id.next)
         return super.onCreateOptionsMenu(menu)
     }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId==R.id.next){
-            Toast.makeText(applicationContext,"CLick",Toast.LENGTH_SHORT).show()
-            startActivity(Intent(this,StoryPartsActivity::class.java))
+        if (item.itemId == R.id.next) {
+
+            val info = data("Untitled Document")
+            val postinfo = skipdata(info)
+            val call = RetrofitClient.JsonApi.skipaction("Bearer $jwt", postinfo)
+            call.enqueue(object : Callback<responsedata> {
+                override fun onResponse(
+                    call: Call<responsedata>,
+                    response: Response<responsedata>
+                ) {
+                    if (response.code() == 200) {
+                        val int = Intent(this@WritingStory, StoryPartsActivity::class.java)
+                        int.putExtra("description", description.text.toString())
+                        int.putExtra("titel", titel.text.toString())
+                        int.putExtra("category", spinner.selectedItemId.toString())
+                        int.putStringArrayListExtra("tags", storytags)
+                        int.putExtra("getdata", response.body())
+                        startActivity(int)
+                    }
+                }
+
+                override fun onFailure(call: Call<responsedata>, t: Throwable) {
+
+                }
+
+            })
         }
         return super.onOptionsItemSelected(item)
     }
+
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true

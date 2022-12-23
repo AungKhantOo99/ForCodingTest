@@ -5,41 +5,63 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.content.res.Resources
+import android.graphics.RenderEffect
+import android.graphics.Shader
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.CompoundButton
-import android.widget.Switch
-import android.widget.TextView
+import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.app.ActivityCompat.finishAffinity
 import com.ako.taypad.AuthenticationActivity
 import com.ako.taypad.R
+import com.ako.taypad.Retrofit.RetrofitClient
+import com.ako.taypad.WritingStory
+import com.ako.taypad.model.profiledata
+import retrofit2.Call
+import retrofit2.Response
 
 @SuppressLint("UseSwitchCompatOrMaterialCode")
 class ProfileFragment : Fragment() {
     lateinit var sharedtheme: SharedPreferences
     lateinit var switchthems:Switch
+    lateinit var name:TextView
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_profile, container, false)
     }
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val text = view.findViewById<TextView>(R.id.jwt)
+        name=view.findViewById(R.id.name)
+
         val logout = view.findViewById<TextView>(R.id.logout)
         val general=view.findViewById<TextView>(R.id.general)
         val account=view.findViewById<TextView>(R.id.privacy)
         val reading=view.findViewById<TextView>(R.id.reading)
         switchthems=view.findViewById<Switch>(R.id.switchtheme)
+        val writeStory=view.findViewById<RelativeLayout>(R.id.write_story)
+        val blurimg=view.findViewById<ImageView>(R.id.blurimage)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            blurimg.setRenderEffect(
+                RenderEffect.createBlurEffect(
+                    30f, //radius X
+                    30f, //Radius Y
+                    Shader.TileMode.CLAMP // X=CLAMP,DECAL,MIRROR,REPEAT
+                ))
+        }
+        writeStory.setOnClickListener {
+            requireActivity().run {
+                val int=Intent(this, WritingStory::class.java)
+                startActivity(int)
+                //  requireActivity().overridePendingTransition(R.anim.showanmi,R.anim.fade)
+            }
+        }
         val sharedPreferences = requireActivity().getSharedPreferences(
             AuthenticationActivity.MyPERF,
             Context.MODE_PRIVATE
@@ -59,7 +81,6 @@ class ProfileFragment : Fragment() {
         }
         sharedtheme=requireActivity().getSharedPreferences("Checkthems",Context.MODE_PRIVATE)
         val jwt = sharedPreferences.getString(AuthenticationActivity.defaultvalue, null)
-        text.setText(jwt)
         logout.setOnClickListener {
             val editor = sharedPreferences.edit()
             editor.clear()
@@ -67,40 +88,36 @@ class ProfileFragment : Fragment() {
             startActivity(Intent(view.context, AuthenticationActivity::class.java))
             activity?.finish()
         }
-//        changethems.setOnClickListener {
-//            val builder= AlertDialog.Builder(requireContext())
-//            builder.setTitle("Change Themes")
-//            val style= arrayOf("Light","Dark")
-//            val  check = 0
-//            builder.setSingleChoiceItems(style , check){dialog,which->
-//                when (which){
-//                    0->{
-//                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-//                        dialog.dismiss()
-//                    }
-//                    1->{
-//                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-//                        dialog.dismiss()
-//                    }
-//                }
-//            }
-//            val dialog=builder.create()
-//            dialog.show()
-//        }
-        switchthems.setOnCheckedChangeListener({ _ ,isChecked->
-          if (isChecked){
-              val editor=sharedtheme.edit()
-              editor.putInt("default",1)
-              editor.apply()
-              AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-          }else{
-              val editor=sharedtheme.edit()
-              editor.clear()
-              editor.apply()
-              AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-          }
-        })
+        switchthems.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                val editor = sharedtheme.edit()
+                editor.putInt("default", 1)
+                editor.apply()
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            } else {
+                val editor = sharedtheme.edit()
+                editor.clear()
+                editor.apply()
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
+        }
         checkTheme()
+        jwt?.let { GetProfiledata(it) }
+    }
+    private fun GetProfiledata(data:String){
+        val getdata=RetrofitClient.JsonApi.getprofiledata("Bearer $data")
+        getdata.enqueue(object :retrofit2.Callback<profiledata> {
+            override fun onResponse(call: Call<profiledata>, response: Response<profiledata>) {
+                if(response.code()==200){
+                    name.setText(response.body()!!.username)
+                }
+            }
+
+            override fun onFailure(call: Call<profiledata>, t: Throwable) {
+
+            }
+
+        })
     }
     private fun checkTheme(){
         val check= sharedtheme.getInt("default",0)

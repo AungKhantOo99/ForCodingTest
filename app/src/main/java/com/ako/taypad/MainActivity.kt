@@ -1,74 +1,96 @@
 package com.ako.taypad
 
+import android.annotation.SuppressLint
 import android.content.Context
-import android.content.SharedPreferences
-import android.content.res.Resources
+import android.graphics.Color
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
-import android.widget.QuickContactBadge
+import android.view.MenuItem
+import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
+import androidx.appcompat.view.menu.MenuView
+import androidx.core.view.get
+import androidx.fragment.app.Fragment
+import androidx.navigation.*
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
-import com.ako.taypad.ViewModel.AllData
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.*
 import com.ako.taypad.databinding.ActivityMainBinding
+import com.ako.taypad.databinding.FragmentHomeBinding
 import com.ako.taypad.model.example.bindexample
+import com.ako.taypad.ui.home.HomeFragment
 import com.google.android.material.badge.BadgeDrawable
-import com.google.android.material.badge.BadgeUtils
-import kotlin.math.absoluteValue
-import kotlin.properties.Delegates
+import com.google.android.material.bottomnavigation.BottomNavigationItemView
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity() {
-    companion object{
-        var allbook=ArrayList<bindexample>()
-        lateinit var badge:BadgeDrawable
-        var count=0
+    companion object {
+        var allbook = ArrayList<bindexample>()
+        lateinit var badge: BadgeDrawable
+        var count = 0
+        @SuppressLint("StaticFieldLeak")
+        lateinit var binding: ActivityMainBinding
     }
+    lateinit var buttonnav: com.google.android.material.bottomnavigation.BottomNavigationView
     lateinit var navController: NavController
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-//        binding = ActivityMainBinding.inflate(layoutInflater)
-//        setContentView(binding.root)
-//        supportActionBar?.hide()
-//        val navView: BottomNavigationView = binding.navView
-//        val navController = findNavController(R.id.nav_host_fragment_activity_main)
-//        navView.setupWith    NavController(navController)
-
-        setContentView(R.layout.activity_main)
+       binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         supportActionBar?.hide()
-
-        navController=Navigation.findNavController(this,R.id.nav_host_fragment_activity_main)
-        val buttonnav=findViewById<com.google.android.material.bottomnavigation.BottomNavigationView>(R.id.nav_view)
-         badge = buttonnav.getOrCreateBadge(R.id.navigation_librsry)
-        badge.isVisible = true
+        navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main)
+        buttonnav = findViewById(R.id.nav_view)
         buttonnav.let {
-            NavigationUI.setupWithNavController(it,navController)
+            NavigationUI.setupWithNavController(it, navController)
         }
-        val viewmodel = ViewModelProvider(this).get(AllData::class.java)
-        viewmodel.addcount(95)
-        viewmodel.getcount().observe(this, Observer {
-            badge.number=it
-            count=it
-        })
+        if(checkConnection()!=true){
+            val snackbar = Snackbar.make(
+                binding.root, "No Internet Connection",
+                Snackbar.LENGTH_INDEFINITE)
+                snackbar.setAction("Retry"){
+                    snackbar.dismiss()
+                }
+            val snackbarView = snackbar.view
+            val action =
+                snackbarView.findViewById(com.google.android.material.R.id.snackbar_action) as TextView
+            action.isAllCaps=false
+            action.textSize=15f
+            val textView =
+                snackbarView.findViewById(com.google.android.material.R.id.snackbar_text) as TextView
+            textView.textSize = 14f
+            snackbar.show()
+        }
+        Log.d("current",buttonnav.selectedItemId.toString())
+        buttonnav.setOnItemReselectedListener {
+            HomeFragment.layoutManager.scrollToPositionWithOffset(0,20)
+            Toast.makeText(applicationContext,"Double Click",Toast.LENGTH_SHORT).show()
+        }
     }
     override fun onBackPressed() {
         val builder = AlertDialog.Builder(this)
         builder.setMessage("Do You Want to exist")
         builder.setPositiveButton("OK") { dialog, which ->
-          finishAffinity()
+            finishAffinity()
         }
         builder.setNegativeButton("Cancel") { dialog, which ->
         }
         builder.show()
 
     }
-
+    fun checkConnection(): Boolean? {
+        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork: NetworkInfo?=connectivityManager.activeNetworkInfo
+        return activeNetwork?.isConnected
+    }
     override fun onStart() {
         super.onStart()
 

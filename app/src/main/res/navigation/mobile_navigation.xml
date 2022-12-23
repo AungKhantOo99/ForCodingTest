@@ -23,11 +23,6 @@
         android:label="Library"
         tools:layout="@layout/fragment_library" />
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.ako.taypad.ui.writing.WritingFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_writing" />
-    <fragment
         android:id="@+id/navigation_profile"
         android:name="com.ako.taypad.ui.Profile.ProfileFragment"
         android:label="Profile"

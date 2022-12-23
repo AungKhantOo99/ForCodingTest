@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     tools:context=".StoryPartsActivity">
     <ScrollView
         android:id="@+id/scoll"
@@ -51,22 +52,24 @@
             android:layout_marginTop="10dp"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
-            android:textAlignment="center"
             android:fontFamily="monospace"
-            android:hint="Enter Your Titel"
+            android:hint="Enter Your Title"
+            android:lineSpacingExtra="6sp"
+            android:textAlignment="center"
             android:textStyle="bold"
             android:layout_below="@id/partcover"
             android:id="@+id/parttitle"/>
             <jp.wasabeef.richeditor.RichEditor
                 android:layout_marginTop="20dp"
+                android:fontFamily="monospace"
+                android:lineSpacingExtra="6sp"
                 android:layout_below="@id/parttitle"
                 android:layout_width="match_parent"
                 android:background="?attr/colorOnPrimary"
                 android:layout_height="wrap_content"
                 android:id="@+id/rich"
                 android:layout_marginStart="10dp"
-                android:imeOptions="actionNext"
-                tools:ignore="RtlSymmetry" />
+                 />
         </RelativeLayout>
     </ScrollView>
     <HorizontalScrollView
@@ -106,48 +109,26 @@
                 android:contentDescription="@null"
                 android:src="@drawable/ic_underlined_24" />
             <ImageButton
-                android:id="@+id/action_txt_color"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:background="@null"
-                android:contentDescription="@null"
-                android:src="@drawable/ic_color_24" />
-
-            <ImageButton
-                android:id="@+id/action_bg_color"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:background="@null"
-                android:contentDescription="@null"
-                android:src="@drawable/ic_colorize_24" />
-            <ImageButton
                 android:id="@+id/action_align_center"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:background="@null"
                 android:contentDescription="@null"
-                android:src="@drawable/ic_align_24" />
+                android:src="@drawable/ic_baseline_format_align_center_24" />
             <ImageButton
-                android:id="@+id/action_align_right"
+                android:id="@+id/action_align_left"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:background="@null"
                 android:contentDescription="@null"
                 android:src="@drawable/ic_align_left_24" />
             <ImageButton
-                android:id="@+id/action_insert_image"
+                android:id="@+id/action_align_right"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:background="@null"
                 android:contentDescription="@null"
-                android:src="@drawable/ic_insert_photo_24" />
-            <ImageButton
-                android:id="@+id/action_insert_link"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:background="@null"
-                android:contentDescription="@null"
-                android:src="@drawable/ic_insert_link_24" />
+                android:src="@drawable/ic_baseline_format_align_right_24" />
         </LinearLayout>
     </HorizontalScrollView>
 </RelativeLayout>

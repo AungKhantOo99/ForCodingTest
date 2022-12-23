@@ -11,4 +11,9 @@
     <string name="enter_category">Enter Category</string>
     <string name="text_spaces">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</string>
     <string name="change_email">Change Email</string>
+    <string name="for_beginner_click_for_reference"><u>for beginner click for reference</u></string>
+    <string name="reset">Type your email below and we will send you instructions on how to reset it.</string>
+    <string name="follow">Follow</string>
+    <string name="please_wait">Please wait ...</string>
+    <string name="home">Home</string>
 </resources>

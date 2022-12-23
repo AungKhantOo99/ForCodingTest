@@ -1,102 +1,121 @@
 package com.ako.taypad
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
+import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.SnapHelper
-import com.ako.taypad.Adapter.BookDetailAdapter
-import com.ako.taypad.Interface.bindselectbook
+import com.ako.taypad.Retrofit.RetrofitClient
 import com.ako.taypad.ViewModel.AllData
-import com.ako.taypad.model.example.bindexample
-import com.ako.taypad.ui.Library.LibraryFragment
+import com.ako.taypad.model.getpartsdata.getpartsdata
 import com.ako.taypad.ui.Libraryitems.CurrentRead
-import kotlin.properties.Delegates
+import com.squareup.picasso.Picasso
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
-class StoryDetailsActivity : AppCompatActivity(),bindselectbook {
-    lateinit var titel:TextView
-    lateinit var desccription:TextView
+class StoryDetailsActivity : AppCompatActivity(){
+    lateinit var titel: TextView
+    lateinit var read: TextView
+    lateinit var rating: TextView
+    lateinit var review: TextView
+    lateinit var desccription: TextView
     lateinit var recyclerView: RecyclerView
     lateinit var mLayoutManager: LinearLayoutManager
-    lateinit var toolbar:Toolbar
+    lateinit var toolbar: Toolbar
     lateinit var viewModel: AllData
-    var currentposition=0
+    lateinit var startread: Button
+    var currentposition = 0
+    lateinit var img:ImageView
+    var jwt=""
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        var allbook=ArrayList<bindexample>()
         setContentView(R.layout.activity_story_details)
-        val position=intent.getIntExtra("Key",0)
+        read = findViewById(R.id.read)
+        rating = findViewById(R.id.rating)
+        review = findViewById(R.id.review)
+        startread=findViewById(R.id.start_read)
+        titel = findViewById(R.id.title)
+        desccription = findViewById(R.id.descrription)
+        img=findViewById(R.id.titleimg)
+        val position = intent.getIntExtra("Key",  0)
         toolbar = findViewById<View>(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
-        viewModel= ViewModelProvider(this).get(AllData::class.java)
-        viewModel.getExample().observe(this, Observer {
-            allbook=it
-            bindbookdetail(it,position)
-            toolbar.title=allbook[position].titel
-            recyclerView.adapter=BookDetailAdapter(this,it,this)
-        })
-
-        supportActionBar!!.setDisplayShowHomeEnabled(true)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-
-        titel=findViewById(R.id.title)
-        desccription=findViewById(R.id.descrription)
-        recyclerView=findViewById(R.id.bookdetail)
-        mLayoutManager=LinearLayoutManager(this,RecyclerView.HORIZONTAL,false)
-        recyclerView.layoutManager=mLayoutManager
-        val snapHelper: SnapHelper = PagerSnapHelper()
-        snapHelper.attachToRecyclerView(recyclerView)
-        recyclerView.smoothScrollToPosition(position)
-
-        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
-                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    val centerView = snapHelper.findSnapView(mLayoutManager) as View
-                    currentposition= mLayoutManager.getPosition(centerView)
-                    this@StoryDetailsActivity.bindSelectBook(currentposition)
+        toolbar.title = "Back"
+        val SharedPreferences = this.getSharedPreferences(AuthenticationActivity.MyPERF, Context.MODE_PRIVATE)
+        jwt = SharedPreferences.getString(AuthenticationActivity.defaultvalue, null).toString()
+        val call=RetrofitClient.JsonApi.getparts("Bearer $jwt","$position")
+        call.enqueue(object :Callback<getpartsdata>{
+            override fun onResponse(call: Call<getpartsdata>, response: Response<getpartsdata>) {
+                val data=response.body()
+                if(response.code()==200){
+                    titel.text=data!!.data.title
+                    desccription.text=data!!.data.description
+                    if(data.data.coverUrl!=null){
+                        Picasso.get().load("http://192.168.100.212:1337${data!!.data.coverUrl}")
+                            .into(img)
+                    }else{
+                        img.setImageResource(R.drawable.one)
+                    }
+                    startread.setOnClickListener {
+                        val int=Intent(this@StoryDetailsActivity,PartsDetailActivity::class.java)
+                        int.putExtra("position",data!!.data.parts[0].id)
+                        startActivity(int)
+                    }
                 }
             }
+
+            override fun onFailure(call: Call<getpartsdata>, t: Throwable) {
+
+            }
+
         })
+        supportActionBar!!.setDisplayShowHomeEnabled(true)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
     }
+
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
     }
-    private fun bindbookdetail(data:ArrayList<bindexample>,id:Int){
-        toolbar.title=data[id].titel
-        titel.text=data[id].titel
-        desccription.text= data[id].description
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.save, menu)
+        val item: MenuItem = menu.findItem(R.id.save)
+        return super.onCreateOptionsMenu(menu)
     }
-    override fun bindSelectBook(getid: Int) {
-        viewModel.getExample().observe(this, Observer {
-           bindbookdetail(it,getid)
-        })
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId==R.id.save){
+            val builder = AlertDialog.Builder(this)
+            builder.setMessage("Do you want to add this story to library")
+            builder.setPositiveButton("OK") { dialog, which ->
+                viewModel.getExample().observe(this, Observer {
+                    CurrentRead.fav.add(it[currentposition].titel)
+                    Toast.makeText(applicationContext,"Save Successful", Toast.LENGTH_SHORT).show()
+
+                })
+            }
+            builder.setNegativeButton("Cancel") { dialog, which ->
+
+            }
+            builder.show()
+        }
+        return super.onOptionsItemSelected(item)
     }
     override fun onBackPressed() {
-        val builder = AlertDialog.Builder(this)
-        builder.setMessage("Do you want to add this story to library")
-        builder.setPositiveButton("OK") { dialog, which ->
-            viewModel.getExample().observe(this, Observer {
-                CurrentRead.fav.add(it[currentposition].titel)
-                finish()
-            })
-        }
-        builder.setNegativeButton("Cancel") { dialog, which ->
-            finish()
-        }
-        builder.show()
-
+       super.onBackPressed()
     }
 }

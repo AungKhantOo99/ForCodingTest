@@ -6,9 +6,17 @@
     tools:context=".ui.Libraryitems.Favouriate">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Favouriate" />
+        android:layout_height="match_parent">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="You don't have any favouriate book"
+            android:textSize="17sp"
+            android:id="@+id/hintforempty"
+            android:layout_centerInParent="true"
+            android:fontFamily="@font/roboto"/>
+    </RelativeLayout>
 
 </FrameLayout>

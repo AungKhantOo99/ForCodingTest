@@ -4,6 +4,6 @@
     <item
         android:id="@+id/next"
         app:showAsAction="ifRoom"
-        android:title="Next"
+        android:title="SKIP"
         android:actionLayout="@layout/activity_main"/>
 </menu>

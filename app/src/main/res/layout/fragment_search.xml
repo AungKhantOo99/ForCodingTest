@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,7 +8,7 @@
     tools:context=".ui.search.Searchragment">
   <RelativeLayout
       android:layout_width="match_parent"
-      android:layout_height="match_parent">
+      android:layout_height="wrap_content">
       <TextView
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
@@ -19,6 +19,7 @@
           android:layout_marginStart="10dp"
           android:id="@+id/home"/>
       <SearchView
+          android:background="@drawable/categorybg"
           android:id="@+id/search"
           android:layout_below="@+id/home"
           android:layout_width="match_parent"
@@ -31,12 +32,21 @@
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:layout_below="@id/search" />
+      <TextView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="#Browser Tags"
+          android:fontFamily="monospace"
+          android:textSize="19sp"
+          android:layout_margin="10dp"
+          android:layout_below="@id/idLVProgrammingLanguages"
+          android:id="@+id/t"/>
       <androidx.recyclerview.widget.RecyclerView
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:id="@+id/categoryitems"
           android:layout_marginStart="8dp"
           android:layout_marginEnd="8dp"
-          android:layout_below="@id/idLVProgrammingLanguages"/>
+          android:layout_below="@id/t"/>
   </RelativeLayout>
-</FrameLayout>
+</ScrollView>

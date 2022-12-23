@@ -3,59 +3,104 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/categorybg.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/drawer.xml" value="0.1" />
         <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/ic_add_24.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/ic_ads.xml" value="0.1" />
         <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/ic_align_24.xml" value="0.1" />
         <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/ic_align_left_24.xml" value="0.1" />
         <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/ic_back.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/ic_baseline_add.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/ic_baseline_bafore_like.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/ic_baseline_close_24.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/ic_baseline_more.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/ic_baseline_rating.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/ic_baseline_reset.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/ic_bold_24.xml" value="0.1" />
         <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/ic_color_24.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/ic_colorize_24.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/ic_comment.xml" value="0.1" />
         <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/ic_email_24.xml" value="0.1" />
         <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/ic_filter.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/ic_insert_link_24.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/ic_insert_photo_24.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/ic_italic_24.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/ic_like.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/ic_liked.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/ic_mode_comment.xml" value="0.1" />
         <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/ic_name_24.xml" value="0.1" />
         <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/ic_new.xml" value="0.1" />
         <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/ic_next.xml" value="0.1" />
         <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/ic_noti.xml" value="0.1" />
         <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/ic_notifications_black_24dp.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/ic_outline_outline_comment_24.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/ic_outline_share.xml" value="0.1" />
         <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/ic_passward_24.xml" value="0.1" />
         <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/ic_search_24.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/ic_send.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/ic_share.xml" value="0.1" />
         <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/ic_underlined_24.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/ic_undo_24.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/ic_view.xml" value="0.1" />
         <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/loginbg.xml" value="0.1" />
         <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/mainxmlbg.xml" value="0.1" />
         <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/navibg.xml" value="0.1" />
         <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/nextsignupbg.xml" value="0.11" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/postbg.xml" value="0.1" />
         <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/searchbg.xml" value="0.1" />
         <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/signupbg.xml" value="0.1" />
         <entry key="..\:/MML Project/Final Taypad/app/src/main/res/drawable/tagsbg.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout-land/activity_authentication.xml" value="0.28622540250447226" />
         <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout-land/activity_writing_story.xml" value="0.225377107364685" />
-        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout-v31/categoryitems.xml" value="0.1375" />
-        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/activity_authentication.xml" value="0.1" />
-        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout-v31/categoryitems.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/activity_authentication.xml" value="0.4" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/activity_check.xml" value="0.17400598546387344" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/activity_main.xml" value="0.2" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/activity_parts_detail.xml" value="0.22" />
         <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/activity_search_result.xml" value="0.1" />
-        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/activity_story_details.xml" value="0.11286874732791792" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/activity_story_details.xml" value="0.264" />
         <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/activity_story_parts.xml" value="0.1" />
-        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/activity_writing_story.xml" value="0.3333333333333333" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/activity_view_other_profile.xml" value="0.536" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/activity_writing_story.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/bottomsheet_comment.xml" value="0.17400598546387344" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/buttonsheet_comment.xml" value="0.264" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/buttonsheet_forpublic.xml" value="0.1" />
         <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/categoryitems.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/commentitems.xml" value="0.1" />
         <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/detailbook.xml" value="0.11286874732791792" />
-        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/dialogview.xml" value="0.5" />
-        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/firstshow.xml" value="0.13333333333333333" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/dialogview.xml" value="0.536" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/firstshow.xml" value="0.16727272727272727" />
         <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/fragment_blank.xml" value="0.1" />
         <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/fragment_current_read.xml" value="0.11286874732791792" />
         <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/fragment_favouriate.xml" value="0.1" />
-        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/fragment_home.xml" value="0.35294117647058826" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/fragment_home.xml" value="0.23511904761904762" />
         <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/fragment_library.xml" value="0.1" />
         <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/fragment_notifications.xml" value="0.1" />
-        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/fragment_profile.xml" value="0.33116883116883117" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/fragment_profile.xml" value="0.4" />
         <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/fragment_reading_list.xml" value="0.11286874732791792" />
         <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/fragment_search.xml" value="0.25" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/fragment_writing.xml" value="0.20353982300884957" />
         <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/fragment_zzz.xml" value="0.10572916666666667" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/header.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/homeloading.xml" value="0.176" />
         <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/lastest.xml" value="0.5" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/partdetail.xml" value="0.1368106028217187" />
         <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/popular.xml" value="0.1" />
         <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/searchitem.xml" value="0.1" />
         <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/searchresultitem.xml" value="0.5" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/layout/showcommentlayout.xml" value="0.1" />
         <entry key="..\:/MML Project/Final Taypad/app/src/main/res/menu/bottom_nav_menu.xml" value="0.10572916666666667" />
         <entry key="..\:/MML Project/Final Taypad/app/src/main/res/menu/next.xml" value="0.11286874732791792" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/menu/parts.xml" value="0.22" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/menu/publish.xml" value="0.11286874732791792" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/menu/save.xml" value="0.1" />
+        <entry key="..\:/MML Project/Final Taypad/app/src/main/res/menu/showparts.xml" value="0.1368106028217187" />
         <entry key="..\:/MML Project/TAYPAD2/app/src/main/res/layout/fragment_home.xml" value="0.10572916666666667" />
         <entry key="..\:/MML Project/TAYPAD2/app/src/main/res/layout/fragment_library.xml" value="0.1" />
         <entry key="..\:/MML Project/TAYPAD2/app/src/main/res/layout/fragment_profile.xml" value="0.10572916666666667" />
+        <entry key="..\:/Users/DELL/AppData/Local/Android/Sdk/platforms/android-32/data/res/layout/simple_spinner_item.xml" value="0.1368106028217187" />
       </map>
     </option>
   </component>
