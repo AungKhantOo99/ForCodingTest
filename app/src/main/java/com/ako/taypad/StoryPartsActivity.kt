@@ -28,7 +28,9 @@ import com.ako.taypad.model.writeparts.savedriftparts.Data
 import com.ako.taypad.model.writeparts.savedriftparts.Story
 import com.ako.taypad.model.writeparts.savedriftparts.savedriftpartsdata
 import com.ako.taypad.model.writeparts.responseparts.responsepartsdata
+import com.ako.taypad.ui.home.HomeFragment
 import com.google.android.material.chip.Chip
+import com.google.android.material.snackbar.Snackbar
 import jp.wasabeef.richeditor.RichEditor
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -56,8 +58,7 @@ class StoryPartsActivity : AppCompatActivity() {
     lateinit var tagsforstory: ArrayList<String>
     lateinit var tagsgroup: com.google.android.material.chip.ChipGroup
     lateinit var partstitle: com.google.android.material.textfield.TextInputEditText
-    var checktitle = 0
-    var checkdescription = 0
+    var checkimg=false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_story_parts)
@@ -125,13 +126,11 @@ class StoryPartsActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.publish, menu)
-//        val item: MenuItem = menu.findItem(R.id.publish)
-//        val item: MenuItem = menu.findItem(R.id.post)
         return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.publish) {
+    //    if (item.itemId == R.id.publish) {
 //            val dialog = BottomSheetDialog(this)
 //            val view = LayoutInflater.from(this).inflate(R.layout.buttonsheet_forpublic, null)
 //            dialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
@@ -189,30 +188,15 @@ class StoryPartsActivity : AppCompatActivity() {
 //                    }
 //                }
 //            })
-        } else if (item.itemId == R.id.post) {
-            progressDialog = ProgressDialog(this)
-            progressDialog.setTitle("Loading")
-            progressDialog.setMessage("Please wait")
-            progressDialog.show()
-            progressDialog.setCancelable(false)
-            postImage()
+   //     } else
+            if (item.itemId == R.id.post) {
+                if(checkimg){
+                    postImage()
+                }else{
+                    Toast.makeText(applicationContext, "Please add cover first", Toast.LENGTH_SHORT).show()
+                }
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    private fun addChipToGroup(tags: String) {
-        val chip = Chip(this)
-        chip.text = tags
-        chip.chipIcon = ContextCompat.getDrawable(this, R.drawable.homes)
-        chip.isChipIconVisible = true
-        chip.isCloseIconVisible = true
-        chip.isClickable = true
-        chip.isCheckable = false
-        tagsgroup.addView(chip as View)
-        chip.setOnCloseIconClickListener {
-            tagsgroup.removeView(chip as View)
-            Toast.makeText(this, "${chip.text} has been removed", Toast.LENGTH_SHORT).show()
-        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -220,10 +204,16 @@ class StoryPartsActivity : AppCompatActivity() {
         if (requestCode == 0 && resultCode == Activity.RESULT_OK && data != null) {
             photourl = data.data!!
             partcover.setImageURI(photourl)
+            checkimg=true
         }
     }
 
     private fun postImage() {
+        progressDialog = ProgressDialog(this)
+        progressDialog.setTitle("Loading")
+        progressDialog.setMessage("Please wait")
+        progressDialog.show()
+        progressDialog.setCancelable(false)
         val name = resover(photourl)
         val file = createTmpFileFromUri(applicationContext, photourl, name)
         val requestFile =
@@ -259,7 +249,6 @@ class StoryPartsActivity : AppCompatActivity() {
                         )
                     )
                     public(info)
-
                 }
             }
 
@@ -294,7 +283,7 @@ class StoryPartsActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         val builder = AlertDialog.Builder(this)
-        builder.setMessage("Do You Want to save as draft")
+        builder.setMessage("Do you want to save as draft")
         builder.setPositiveButton("OK") { dialog, which ->
             saveasdrift()
             finish()
@@ -312,6 +301,7 @@ class StoryPartsActivity : AppCompatActivity() {
             override fun onResponse(call: Call<responsepartsdata>, response: Response<responsepartsdata>
             ) {
                 if(response.code()==200){
+                    startActivity(Intent(this@StoryPartsActivity,MainActivity::class.java))
                     progressDialog.hide()
                 }
             }
@@ -338,6 +328,7 @@ class StoryPartsActivity : AppCompatActivity() {
                 response: Response<responsepartsdata>
             ) {
                 if (response.code() == 200) {
+                    startActivity(Intent(this@StoryPartsActivity,HomeFragment::class.java))
                     Toast.makeText(applicationContext, "Success", Toast.LENGTH_SHORT).show()
                 }
             }

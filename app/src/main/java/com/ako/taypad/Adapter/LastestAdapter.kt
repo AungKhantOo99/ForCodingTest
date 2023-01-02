@@ -17,17 +17,17 @@ import com.squareup.picasso.Picasso
 class LastestAdapter(val context: Context,val binddata:ArrayList<allstoriesItem>):RecyclerView.Adapter<LastestAdapter.ViewHolder>() {
     private var selectedItemPosition: Int = 0
     class ViewHolder(ItemView: View): RecyclerView.ViewHolder(ItemView)
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LastestAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view= LayoutInflater.from(context).inflate(R.layout.lastest,parent,false)
         return ViewHolder(view)
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    override fun onBindViewHolder(holder: LastestAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         val img=holder.itemView.findViewById<ImageView>(R.id.lastestimg)
         if(binddata[position].coverUrl!=null){
-            Picasso.get().load("http://192.168.100.212:1337${binddata[position].coverUrl}")
+            Picasso.get().load("http://192.168.100.147:1337${binddata[position].coverUrl}")
                 .into(img)
         }else{
             img.setImageResource(R.drawable.one)

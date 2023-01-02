@@ -5,8 +5,10 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
+import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,7 +23,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class check : AppCompatActivity() {
+class CommentView : AppCompatActivity() {
     lateinit var commentvalue:EditText
     lateinit var cmtadapter:CommentAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,6 +31,9 @@ class check : AppCompatActivity() {
         setContentView(R.layout.activity_check)
         val id=intent.getIntExtra("id",0)
         bindData(id)
+        val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
+        setSupportActionBar(toolbar)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
     }
     @SuppressLint("NotifyDataSetChanged")
     private fun bindData(id: Int) {
@@ -77,5 +82,8 @@ class check : AppCompatActivity() {
 
         })
     }
-
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
 }

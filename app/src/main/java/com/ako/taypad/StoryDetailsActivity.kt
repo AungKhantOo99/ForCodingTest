@@ -65,7 +65,7 @@ class StoryDetailsActivity : AppCompatActivity(){
                     titel.text=data!!.data.title
                     desccription.text=data!!.data.description
                     if(data.data.coverUrl!=null){
-                        Picasso.get().load("http://192.168.100.212:1337${data!!.data.coverUrl}")
+                        Picasso.get().load("http://192.168.100.147:1337${data!!.data.coverUrl}")
                             .into(img)
                     }else{
                         img.setImageResource(R.drawable.one)
@@ -102,11 +102,7 @@ class StoryDetailsActivity : AppCompatActivity(){
             val builder = AlertDialog.Builder(this)
             builder.setMessage("Do you want to add this story to library")
             builder.setPositiveButton("OK") { dialog, which ->
-                viewModel.getExample().observe(this, Observer {
-                    CurrentRead.fav.add(it[currentposition].titel)
-                    Toast.makeText(applicationContext,"Save Successful", Toast.LENGTH_SHORT).show()
 
-                })
             }
             builder.setNegativeButton("Cancel") { dialog, which ->
 

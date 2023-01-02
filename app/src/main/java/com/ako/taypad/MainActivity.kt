@@ -2,39 +2,24 @@ package com.ako.taypad
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Color
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
-import android.view.MenuItem
-import android.view.View
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.view.menu.MenuView
-import androidx.core.view.get
-import androidx.fragment.app.Fragment
 import androidx.navigation.*
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.*
 import com.ako.taypad.databinding.ActivityMainBinding
-import com.ako.taypad.databinding.FragmentHomeBinding
-import com.ako.taypad.model.example.bindexample
 import com.ako.taypad.ui.home.HomeFragment
 import com.google.android.material.badge.BadgeDrawable
-import com.google.android.material.bottomnavigation.BottomNavigationItemView
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity() {
     companion object {
-        var allbook = ArrayList<bindexample>()
         lateinit var badge: BadgeDrawable
         var count = 0
         @SuppressLint("StaticFieldLeak")
@@ -71,8 +56,9 @@ class MainActivity : AppCompatActivity() {
         }
         Log.d("current",buttonnav.selectedItemId.toString())
         buttonnav.setOnItemReselectedListener {
-            HomeFragment.layoutManager.scrollToPositionWithOffset(0,20)
-            Toast.makeText(applicationContext,"Double Click",Toast.LENGTH_SHORT).show()
+            Handler().postDelayed({ HomeFragment.recycler.scrollToPosition(0) }, 200)
+          //  HomeFragment.layoutManager.scrollToPositionWithOffset(0,20)
+        //    Toast.makeText(applicationContext,"Double Click",Toast.LENGTH_SHORT).show()
         }
     }
     override fun onBackPressed() {
@@ -91,8 +77,8 @@ class MainActivity : AppCompatActivity() {
         val activeNetwork: NetworkInfo?=connectivityManager.activeNetworkInfo
         return activeNetwork?.isConnected
     }
-    override fun onStart() {
-        super.onStart()
-
-    }
+//    override fun onStart() {
+//        super.onStart()
+//
+//    }
 }

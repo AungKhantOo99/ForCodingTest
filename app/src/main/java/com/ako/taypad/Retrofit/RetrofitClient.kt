@@ -10,7 +10,7 @@ object RetrofitClient {
     val retrofit = Retrofit.Builder()
         .addConverterFactory(GsonConverterFactory.create())
     //    http://192.168.100.212:1337/api/auth/local/register
-        .baseUrl("http://192.168.100.212:1337/api/")
+        .baseUrl("http://192.168.100.147:1337/api/")
         .client(client)
         .build()
     val JsonApi = retrofit.create(JsonPlaceHolder::class.java)

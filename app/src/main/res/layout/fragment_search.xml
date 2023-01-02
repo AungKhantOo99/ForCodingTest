@@ -24,7 +24,7 @@
           android:layout_below="@+id/home"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:layout_margin="10dp"
+          android:layout_margin="5dp"
           android:iconifiedByDefault="false"
           android:queryHint="Enter Story titels or auther name" />
       <androidx.recyclerview.widget.RecyclerView
@@ -35,7 +35,7 @@
       <TextView
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:text="#Browser Tags"
+          android:text="Categories"
           android:fontFamily="monospace"
           android:textSize="19sp"
           android:layout_margin="10dp"

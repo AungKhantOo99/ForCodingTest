@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.media.MediaPlayer
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,16 +33,17 @@ class HomeAdapter(val context: Context, private val binddata: ArrayList<allstori
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
    //     val random=Random(binddata.size).nextInt(binddata.size)
+        Log.d("category",binddata[position].toString())
         holder.itemView.findViewById<TextView>(R.id.titel).text = binddata[position].title
        val author= holder.itemView.findViewById<TextView>(R.id.author_name)
             if(binddata[position].author!=null){
-                author.text=binddata[position].author!!.username
+                author.text=binddata[position].author!!.username.toString()
             }else{
                 author.text="Unknown author"
             }
         val img=holder.itemView.findViewById<ImageView>(R.id.photo)
         if(binddata[position].coverUrl!=null){
-            Picasso.get().load("http://192.168.100.212:1337${binddata[position].coverUrl}")
+            Picasso.get().load("http://192.168.100.147:1337${binddata[position].coverUrl}")
                 .into(img)
         }else{
             img.setImageResource(R.drawable.one)

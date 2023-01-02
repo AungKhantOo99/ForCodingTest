@@ -7,6 +7,7 @@ import com.ako.taypad.model.comment.commetresponce
 import com.ako.taypad.model.getallstories.allstories
 import com.ako.taypad.model.getpartsdata.getpartsdata
 import com.ako.taypad.model.like.likeresponce
+import com.ako.taypad.model.mystories.mystories
 import com.ako.taypad.model.responceImage.responceImagedata
 import com.ako.taypad.model.sendstorydata.getdata
 import com.ako.taypad.model.sendstorydata.postdata
@@ -22,6 +23,10 @@ import retrofit2.http.*
 
 
 interface JsonPlaceHolder {
+
+    @GET("stories/me")
+    fun mystory(@Header("Authorization")jwt: String):Call<mystories>
+
     @POST("auth/local/register")
     fun signup(@Body userinfo: signupuser): Call<responseUser>
 
@@ -43,7 +48,7 @@ interface JsonPlaceHolder {
                  @Part files: MultipartBody.Part):Call<responceImagedata>
 
     @POST("stories")
-    fun skipaction(@Header("Authorization")jwt:String,@Body data: skipdata):Call<responsedata>
+    fun skipAction(@Header("Authorization")jwt:String, @Body data: skipdata):Call<responsedata>
 
     @POST("stories")
     fun poststories(@Header("Authorization")jwt:String,@Body data: postdata):Call<getdata>

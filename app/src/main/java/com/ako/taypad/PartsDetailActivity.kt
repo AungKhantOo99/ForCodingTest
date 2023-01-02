@@ -3,11 +3,9 @@ package com.ako.taypad
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.text.Html
-import android.util.Log
 import android.view.*
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
@@ -18,22 +16,12 @@ import androidx.core.view.forEach
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.ako.taypad.Adapter.CommentAdapter
-import com.ako.taypad.Interface.StoryParts
 import com.ako.taypad.Retrofit.RetrofitClient
 import com.ako.taypad.ViewModel.AllData
 import com.ako.taypad.ViewModel.PartsViewModel
-import com.ako.taypad.model.comment.Data
-import com.ako.taypad.model.comment.commentdata
-import com.ako.taypad.model.comment.commetresponce
 import com.ako.taypad.model.like.likeresponce
 import com.ako.taypad.model.storypartsdata.responsepartdata
 import com.ako.taypad.repository.PartsDateRepository
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.navigation.NavigationView
 import com.squareup.picasso.Picasso
 import retrofit2.Call
@@ -94,7 +82,7 @@ class PartsDetailActivity : AppCompatActivity(){
         )
         val position = intent.getIntExtra("position", 0)
         findViewById<LinearLayout>(R.id.check).setOnClickListener {
-            val int = Intent(this, check::class.java)
+            val int = Intent(this, CommentView::class.java)
             int.putExtra("id", position)
             startActivity(int)
         }
@@ -102,7 +90,7 @@ class PartsDetailActivity : AppCompatActivity(){
         viewModel = ViewModelProvider(this).get(AllData::class.java)
         fetchData(position.toString())
         comment.setOnClickListener {
-            val int = Intent(this, check::class.java)
+            val int = Intent(this, CommentView::class.java)
             int.putExtra("id", position)
             startActivity(int)
         }
@@ -147,6 +135,7 @@ class PartsDetailActivity : AppCompatActivity(){
         allParts.episodesLiveData(jwt!!, id).observe(this, Observer {
             val data = it
             partstitel.text = data.partInfo.title
+            toolbar.title=data.partInfo.title
             parts.text =
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) Html.fromHtml(
                     (data.partInfo.content),
@@ -161,9 +150,9 @@ class PartsDetailActivity : AppCompatActivity(){
             likecount.setText(data.likeCount)
             commentcount.setText(data.commentsCount.toString())
             readcount.setText(data.readCount)
-            Picasso.get().load("http://192.168.100.212:1337${data.partInfo.pathCoverUrl}")
+            Picasso.get().load("http://192.168.100.147:1337${data.partInfo.pathCoverUrl}")
                 .into(coverimage)
-            Picasso.get().load("http://192.168.100.212:1337${data.partInfo.pathCoverUrl}")
+            Picasso.get().load("http://192.168.100.147:1337${data.partInfo.pathCoverUrl}")
                 .into(photoforparts)
             mainview = findViewById(R.id.mainview)
             likepart.setOnClickListener {

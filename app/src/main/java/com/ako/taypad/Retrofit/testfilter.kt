@@ -12,7 +12,7 @@ object testfilter {
       // http://192.168.100.5:1337/api/categories
       // http://192.168.100.5:1337/api/stories?populate=%2A
       // http://192.168.100.5:1337/api/stories?populate=%2A
-        .baseUrl("http://192.168.100.212:1337/api/")
+        .baseUrl("http://192.168.100.147:1337/api/")
         .client(client)
         .build()
     val JsonApi= retrofit.create(JsonPlaceHolder::class.java)

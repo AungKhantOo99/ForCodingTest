@@ -26,7 +26,7 @@ class PopularAdapter(val context: Context, val binddata:ArrayList<allstoriesItem
         holder.itemView.findViewById<TextView>(R.id.tags).text="Freedom"
         val img=holder.itemView.findViewById<ImageView>(R.id.cover)
         if(binddata[position].coverUrl!=null){
-            Picasso.get().load("http://192.168.100.212:1337${binddata[position].coverUrl}")
+            Picasso.get().load("http://192.168.100.147:1337${binddata[position].coverUrl}")
                 .into(img)
         }else{
             img.setImageResource(R.drawable.one)

@@ -6,6 +6,7 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.databinding.tool.writer.ViewBinder
 import android.net.Uri
 import android.os.Bundle
 import android.provider.OpenableColumns
@@ -16,6 +17,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.webkit.URLUtil
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -29,6 +31,7 @@ import com.ako.taypad.model.sendstorydata.Data
 import com.ako.taypad.model.sendstorydata.getdata
 import com.ako.taypad.model.sendstorydata.postdata
 import com.google.android.material.chip.Chip
+import com.google.android.material.snackbar.Snackbar
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -40,8 +43,8 @@ import java.io.File
 
 
 class WritingStory : AppCompatActivity() {
-    lateinit var progressDialog: ProgressDialog
     lateinit var photourl: Uri
+    lateinit var progressDialog: ProgressDialog
     lateinit var add: ImageButton
     lateinit var post: Button
     lateinit var titel: com.google.android.material.textfield.TextInputEditText
@@ -55,6 +58,7 @@ class WritingStory : AppCompatActivity() {
     lateinit var spinner: Spinner
     lateinit var arr: Array<String>
     var storytags = ArrayList<String>()
+    var check=false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_writing_story)
@@ -80,13 +84,12 @@ class WritingStory : AppCompatActivity() {
                     if (actionId == EditorInfo.IME_ACTION_DONE) {
                         // Call your code here
                         if (!s.isNullOrEmpty()) {
-                            if (s.length >= 1) {
+                            if (s.isNotEmpty()) {
                                 val text = s.toString().replace(",", "")
                                 addChipToGroup(text)
                                 addtags.setText("")
                             }
                         }
-                        true
                     }
                     true
                 }
@@ -97,7 +100,7 @@ class WritingStory : AppCompatActivity() {
             Context.MODE_PRIVATE
         )
         arr = arrayOf(
-            "Fantasy", "Horror", "Fiction", "Mystery", "Thriller",
+            "Horror", "Action", "Adventure", "CheckList", "Romance",
             "LGBT", "Romance", "Gothic", "Young Adult",
             "Magical", "Science", "Adventure"
         )
@@ -113,21 +116,46 @@ class WritingStory : AppCompatActivity() {
             intent.type = "image/*"
             startActivityForResult(intent, 0)
         }
+
         post.setOnClickListener {
-            progressDialog = ProgressDialog(this)
-            progressDialog.setTitle("Loading")
-            progressDialog.setMessage("Please wait")
-            progressDialog.show()
-            progressDialog.setCancelable(false)
-            postImage()
+            if (check) {
+                postImage()
+            } else {
+                val snackbar = Snackbar.make(
+                    it, "Please add story cover first",
+                    Snackbar.LENGTH_SHORT
+                )
+                snackbar.setAction("Add") {
+                    val intent = Intent(Intent.ACTION_PICK)
+                    intent.type = "image/*"
+                    startActivityForResult(intent, 0)
+                    snackbar.dismiss()
+                }
+                val snackbarView = snackbar.view
+                val action =
+                    snackbarView.findViewById(com.google.android.material.R.id.snackbar_action) as TextView
+                action.isAllCaps = false
+                action.textSize = 15f
+                val textView =
+                    snackbarView.findViewById(com.google.android.material.R.id.snackbar_text) as TextView
+                textView.textSize = 14f
+                snackbar.show()
+            }
         }
     }
-
+        override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+            super.onActivityResult(requestCode, resultCode, data)
+            if (requestCode == 0 && resultCode == Activity.RESULT_OK && data != null) {
+                photourl = data.data!!
+                add.setImageURI(photourl)
+                check=true
+            }
+        }
     private fun addChipToGroup(tags: String) {
         storytags.add(tags)
         val chip = Chip(this)
         chip.text = tags
-        chip.chipIcon = ContextCompat.getDrawable(this, R.drawable.homes)
+        chip.chipIcon = ContextCompat.getDrawable(this, R.drawable.tags)
         chip.isChipIconVisible = true
         chip.isCloseIconVisible = true
         chip.isClickable = true
@@ -139,50 +167,51 @@ class WritingStory : AppCompatActivity() {
             Toast.makeText(this, "${chip.text} has been removed", Toast.LENGTH_SHORT).show()
         }
     }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 0 && resultCode == Activity.RESULT_OK && data != null) {
-            photourl = data.data!!
-            add.setImageURI(photourl)
-        }
-    }
-
     private fun postImage() {
-        val name = resover(photourl)
-        val file = createTmpFileFromUri(applicationContext, photourl, name)
-        val requestFile =
-            file!!.asRequestBody(contentResolver.getType(photourl)?.toMediaTypeOrNull())
-        //   val requestBody= file?.let { RequestBody.create("image/*".toMediaTypeOrNull(), it) }
-        Log.d("Whybot", name)
-        val token: String = "Bearer " + jwt
-        val call = RetrofitClient.JsonApi.postfile(
-            token, files =
-            MultipartBody.Part.createFormData("files", name, requestFile)
-        )
-        call.enqueue(object : Callback<responceImagedata> {
-            override fun onResponse(
-                call: Call<responceImagedata>,
-                response: Response<responceImagedata>
-            ) {
-                if (response.code() == 200) {
-                    val posttitel = titel.text.toString()
-                    val postdescription = description.text.toString()
-                    val category=2.toString()
-                    var url=""
-                    response.body()!!.forEach {
-                        url=it.url
+        progressDialog = ProgressDialog(this)
+        progressDialog.setTitle("Save Image")
+        progressDialog.setMessage("Please wait")
+        progressDialog.show()
+        progressDialog.setCancelable(false)
+            val name = resover(photourl!!)
+            val file = createTmpFileFromUri(applicationContext, photourl!!, name)
+            val requestFile =
+                file!!.asRequestBody(contentResolver.getType(photourl!!)?.toMediaTypeOrNull())
+            //   val requestBody= file?.let { RequestBody.create("image/*".toMediaTypeOrNull(), it) }
+            Log.d("Whybot", name)
+            val token: String = "Bearer " + jwt
+            val call = RetrofitClient.JsonApi.postfile(
+                token, files =
+                MultipartBody.Part.createFormData("files", name, requestFile)
+            )
+            call.enqueue(object : Callback<responceImagedata> {
+                override fun onResponse(
+                    call: Call<responceImagedata>,
+                    response: Response<responceImagedata>
+                ) {
+                    if (response.code() == 200) {
+                        val posttitel = titel.text.toString()
+                        val postdescription = description.text.toString()
+                        val category= (spinner.selectedItemId +1).toString()
+                        var url=""
+                        response.body()!!.forEach {
+                            url=it.url
+                        }
+                        progressDialog.hide()
+                        progressDialog.setTitle("Save Story data")
+                        progressDialog.setMessage("Please wait")
+                        progressDialog.show()
+                        progressDialog.setCancelable(false)
+                        val Jwt = "Bearer $jwt"
+                        val data = postdata(Data(category,postdescription,posttitel,url))
+                        postStory(Jwt, data)
                     }
-                    val Jwt = "Bearer $jwt"
-                    val data = postdata(Data(category,postdescription,posttitel,url))
-                    postStory(Jwt, data)
                 }
-            }
-            override fun onFailure(call: Call<responceImagedata>, t: Throwable) {
-                Log.d("Whynot", t.message.toString())
-            }
-        })
-    }
+                override fun onFailure(call: Call<responceImagedata>, t: Throwable) {
+                    Log.d("Whynot", t.message.toString())
+                }
+            })
+        }
 
     private fun postStory(jwt:String, info:postdata){
         val call=RetrofitClient.JsonApi.poststories(jwt,info)
@@ -226,44 +255,6 @@ class WritingStory : AppCompatActivity() {
         }
         return name
     }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.next, menu)
-        val item: MenuItem = menu.findItem(R.id.next)
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.next) {
-
-            val info = data("Untitled Document")
-            val postinfo = skipdata(info)
-            val call = RetrofitClient.JsonApi.skipaction("Bearer $jwt", postinfo)
-            call.enqueue(object : Callback<responsedata> {
-                override fun onResponse(
-                    call: Call<responsedata>,
-                    response: Response<responsedata>
-                ) {
-                    if (response.code() == 200) {
-                        val int = Intent(this@WritingStory, StoryPartsActivity::class.java)
-                        int.putExtra("description", description.text.toString())
-                        int.putExtra("titel", titel.text.toString())
-                        int.putExtra("category", spinner.selectedItemId.toString())
-                        int.putStringArrayListExtra("tags", storytags)
-                        int.putExtra("getdata", response.body())
-                        startActivity(int)
-                    }
-                }
-
-                override fun onFailure(call: Call<responsedata>, t: Throwable) {
-
-                }
-
-            })
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true

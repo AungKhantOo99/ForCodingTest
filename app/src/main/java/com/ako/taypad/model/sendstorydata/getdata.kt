@@ -4,11 +4,11 @@ import java.io.Serializable
 
 data class getdata(
     val contentRating: Boolean,
-    val coverUrl: Any,
+    val coverUrl: String,
     val createdAt: String,
     val description: String,
     val id: Int,
-    val status: Any,
+    val status: Any?,
     val title: String,
     val updatedAt: String
 ):Serializable
