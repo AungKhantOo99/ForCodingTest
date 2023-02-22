@@ -42,7 +42,6 @@ class NewsFragment : Fragment() {
         viewmodel.getnewsdata().observe(viewLifecycleOwner, Observer {
             shimmerFrameLayout.visibility=View.GONE
             shimmerFrameLayout.stopShimmer()
-            Log.d("CheckNews",it.toString())
             allnews.adapter=NewsAdapter(requireContext(),it.articles as ArrayList<Article>)
         })
 
